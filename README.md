@@ -4,4 +4,4 @@
 Questions :
 
 
-Utiliser les trait pour les messages (trait Challange{}) ???
+comment faire pour mettre lenum dans un fichier a part ???
