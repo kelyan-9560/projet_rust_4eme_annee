@@ -2,7 +2,7 @@ use std::io::Write;
 use std::net::TcpStream;
 
 fn main(){
-    let mut stream = TcpStream::connect("localhost:7676");
+    let stream = TcpStream::connect("localhost:7676");
 
     match stream {
         Ok(mut stream) => {

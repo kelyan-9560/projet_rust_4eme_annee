@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct  Welcome {
-    pub(crate) version: u8
+    pub version: u8
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -111,7 +111,3 @@ pub enum Message {
 }
 
 
-
-fn main() {
-    println!("Hello, world!");
-}
