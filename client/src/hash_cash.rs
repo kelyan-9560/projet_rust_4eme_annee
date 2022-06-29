@@ -44,7 +44,7 @@ pub fn hash_cash(input: MD5HashCashInput) -> MD5HashCashOutput{
         } else {
             //caractere_en_plus + 1hexa
             // seed = seed + 1hexa
-            
+
         }
     }
 

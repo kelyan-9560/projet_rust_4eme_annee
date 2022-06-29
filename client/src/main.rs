@@ -17,29 +17,30 @@ fn main(){
     match stream {
         Ok(mut stream) => {
 
-            //Envoyer un msg Hello, Welcome, Subscribe au serveur
-                //La transformer en octets avec .as_bytes();
+            // serialiser le message
+                //struct -> json -> byte
+            let message = Message::Hello;
+            let serialized_message = serde_json::to_string(&message).unwrap();
+            print!("{:?}", serialized_message);
 
-            //let message = Message::Hello.as_bytes();
+            let message_as_bytes = serialized_message.as_bytes();
+            print!("{:?}", message_as_bytes);
 
-
-
-            //convertir le msg en octets
-            let message = "Hello".as_bytes();
-            // le serialiser
-            let serialized = serde_json::to_string(&message).unwrap();
 
             //prendre la taille (en u32) du message serialisé
-            let size:u32 = serialized.len() as u32;
+            let size:u32 = serialized_message.len() as u32;
+            print!("{:?}", size);
 
             // le convertir en bigendian avec la fonction to_be_bytes()
                 //Les chiffres sont en réprésenté différement en fonction
                 //du système d'exploitation, bigendian est la convention pour tout les OS
             let bigendian_size = size.to_be_bytes();
+            print!("{:?}", bigendian_size);
 
             //envoyer la taille
+            stream.write(&bigendian_size).expect("Error: send size failed !");
                 // puis le message
-            //let response = stream.write_all(serialized);
+            stream.write(serialized_message.as_ref()).expect("Error: Send message failed !");
 
 
             //faire le process inverse pour recevoir les messages
@@ -47,14 +48,5 @@ fn main(){
         }
         Err(err) => panic!("Cannot connect : {err}")
     }
-
-
-/*
-    println!("------------");
-    let test = String::from("0000g0reen");
-    println!("{}", count_zero_at_the_beginning(test));
-
- */
-
 
 }
