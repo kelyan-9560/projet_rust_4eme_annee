@@ -1,4 +1,5 @@
 mod HashCash;
+mod RecoverSecret;
 
 use std::io::Write;
 use std::net::TcpStream;
