@@ -1,5 +1,15 @@
+mod HashCash;
+
 use std::io::Write;
 use std::net::TcpStream;
+
+
+
+
+
+
+
+
 
 fn main(){
     let stream = TcpStream::connect("localhost:7676");

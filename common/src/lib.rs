@@ -97,6 +97,23 @@ pub struct EndOfGame {
 }
 
 
+///
+#[derive(Serialize, Deserialize, Debug)]
+pub struct MD5HashCashInput {
+    // complexity in bits
+    pub complexity: u32,
+    // message to sign
+    pub message: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct MD5HashCashOutput {
+    // Seed used to solve the challenge
+    pub seed: u64,
+    // hashcode found using seed + message
+    pub hashcode: String,
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub enum Message {
     Hello,
