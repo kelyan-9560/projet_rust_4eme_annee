@@ -15,6 +15,16 @@ pub fn count_zero_at_the_beginning(word: String) -> u8{
     return panic!("mince");
 }
 
+fn increase(mut vec : Vec<u8>) -> Vec<u8>{
+    for i in 0..8 {
+        if vec[i] <= 254 {
+            vec[i] = vec[i] + 1;
+            return vec;
+        }
+    }
+    return vec;
+}
+
 
 
 pub fn hash_cash(input: MD5HashCashInput) -> MD5HashCashOutput{
@@ -62,12 +72,3 @@ pub fn hash_cash(input: MD5HashCashInput) -> MD5HashCashOutput{
     return response;
 }
 
-fn increase(mut vec : Vec<u8>) -> Vec<u8>{
-    for i in 0..8 {
-        if vec[i] <= 254 {
-            vec[i] = vec[i] + 1;
-            return vec;
-        }
-    }
-    return vec;
-}
