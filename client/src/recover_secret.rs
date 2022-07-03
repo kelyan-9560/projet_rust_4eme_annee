@@ -20,13 +20,10 @@ fn recover_secret(input: RecoverSecretInput) -> String {
 
     let mut a_string = String::from("");
     for i in 0..sentence.len() {
+        a_string.push(sentence[i]);
         if(sentence[i] != ' '){
-            a_string.push(sentence[i]);
             a_string.push(' ');
-        }else {
-            a_string.push(sentence[i]);
         }
-
     }
 
     return a_string;
