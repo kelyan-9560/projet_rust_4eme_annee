@@ -1,5 +1,5 @@
 mod HashCash;
-mod RecoverSecret;
+mod recover_secret;
 extern crate core;
 
 mod hash_cash;
