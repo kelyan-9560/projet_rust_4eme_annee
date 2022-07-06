@@ -18,6 +18,10 @@ fn recover_secret(input: RecoverSecretInput) -> String {
         acc += tuple_sizes[i];
     }
 
+    return sentence_formatter(sentence);
+}
+
+fn sentence_formatter(sentence: Vec<char>) -> String{
     let mut a_string = String::from("");
     for i in 0..sentence.len() {
         a_string.push(sentence[i]);
