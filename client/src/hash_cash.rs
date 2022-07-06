@@ -80,8 +80,7 @@ pub fn hash_cash(input: MD5HashCashInput) -> MD5HashCashOutput{
 #[cfg(test)]
 mod tests {
     use common::{MD5HashCashInput, MD5HashCashOutput};
-    use crate::count_zero_at_the_beginning;
-    use crate::hash_cash::{hash_cash, increase};
+    use crate::hash_cash::{count_zero_at_the_beginning, hash_cash, increase};
 
     #[test]
     fn increase_tests() {
