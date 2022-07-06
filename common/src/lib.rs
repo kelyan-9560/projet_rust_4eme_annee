@@ -10,40 +10,39 @@ pub struct Subscribe {
     pub name: String
 }
 
-///
+//////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Err {
-    error: String
+pub enum SubscribeError {
+    AlreadyRegistered,
+    InvalidName
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+pub enum Result {
+    Ok,
+    Err(SubscribeError)
+}
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct  SubscribeResult {
-    message: String,
-    err : Err
+pub struct SubscribeResult {
+    result: Result
 }
-///
+//////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PublicPlayer{
     name: String,
     stream_id: String,
-    score: String,
-    steps: i32,
+    score: i32,
+    steps: u32,
     is_active: bool,
-    total_used_time: f32
+    total_used_time: f64
 }
+
 #[derive(Serialize, Deserialize, Debug)]
-pub struct ListPlayers{
+pub struct PublicLeaderBoard{
     players: Vec<PublicPlayer>
-
 }
-
-#[derive(Serialize, Deserialize, Debug)]
-pub enum PublicLeaderBoard{
-    ListPlayers
-}
-///
-
+//////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ChallengeName {
     name: String
@@ -59,9 +58,7 @@ pub struct Challenge {
     challenge_name : ChallengeName
 }
 
-
-///
-///
+//////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
 pub struct  ChallengeAnswer {
     answer: String
@@ -71,17 +68,20 @@ pub struct ChallengeResult {
     result: ChallengeAnswer,
     next_target: String
 }
-///
+//////////////////////////////////////////
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct JobValue {
-
+pub enum  ChallengeValue {
+    Unreachable,
+    Timeout,
+    BadResult { used_time: f64, next_target: String },
+    Ok { used_time: f64, next_target: String }
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ReportedChallengeResult {
     name: String,
-    value : JobValue
+    value : ChallengeValue
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -90,14 +90,14 @@ pub struct RoundSummary {
     chain: Vec<ReportedChallengeResult>
 }
 
-///
+//////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
 pub struct EndOfGame {
     leader_board: PublicLeaderBoard
 }
 
 
-///
+//////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
 pub struct MD5HashCashInput {
     // complexity in bits

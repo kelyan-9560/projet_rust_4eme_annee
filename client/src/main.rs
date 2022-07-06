@@ -3,7 +3,7 @@ extern crate core;
 mod hash_cash;
 mod recover_secret;
 
-use common::{Message, Subscribe};
+use common::*;
 use std::io::{Read, Write};
 use std::net::{TcpStream};
 
@@ -11,9 +11,8 @@ use std::net::{TcpStream};
 
 
 fn send_message_to_server(mut stream: &TcpStream, message: Message){
-    // serialiser le message
     //struct -> json -> byte
-    //let message = Message::Hello;
+    //serialiser le message
     let serialized_message = serde_json::to_string(&message).unwrap();
     print!("{:?}", serialized_message);
 
@@ -25,16 +24,15 @@ fn send_message_to_server(mut stream: &TcpStream, message: Message){
     print!("{:?}", size);
 
     // le convertir en bigendian avec la fonction to_be_bytes()
-    //Les chiffres sont réprésenté différement en fonction
-    //du système d'exploitation, bigendian est la convention pour tout les OS
+    //(Les chiffres sont réprésenté différement en fonction
+    //du système d'exploitation, bigendian est la convention pour tout OS)
     let bigendian_size = size.to_be_bytes();
     print!("{:?}", bigendian_size);
 
-    //envoyer la taille
+    //Envoyer la taille
     stream.write(&bigendian_size).expect("Error: send size failed !");
     // puis le message
     stream.write(serialized_message.as_ref()).expect("Error: Send message failed !");
-
 }
 
 
@@ -49,29 +47,19 @@ fn get_size_from_message(message: Vec<u8>) -> u8{
 }
 
 fn server_message_reception(mut stream: &TcpStream){
-    //convertir le taille bigendian -> u32 -> usize
-
     //Receptionner la taille
     let mut size : Vec<u8> = vec![0; 10];
     let _read_result = &stream.read(&mut size); // size_result == est ce que ça s'est bien passé
                                                                     // le resultat du read est dans size
     println!("size : {:?}", size);
+
     let size_u32 = get_size_from_message(size);
-    //     convertir de bigendian à u32 (voir byteorder dependencies)
-    //  let mut size_u32 = size.read_u32::<BigEndian>();
-    //let mut size_u32 = size as u32;
-    //  let mut size_u32 = size.to_le_bytes();
-    //  let mut size_u32 = read_result.unwrap();
-    //  let mut size_u32 = String::from_utf8_lossy(&*size);
     println!("size as u32 : {:?}", size_u32);
 
     //Receptionner le message
     let mut input_message : Vec<u8> = vec![0; size_u32 as usize];
     let mut _read_message = &stream.read(&mut input_message);
     println!("input_message {:?}", input_message);
-
-    //mettre le message dans le vecteur de la taille de size
-    //let mut message_vector = vec![&input_message; &size[0] as usize];
 
     //      passer de l'octet au String
     let input_message_str = String::from_utf8_lossy(&input_message);
@@ -93,20 +81,25 @@ fn main(){
             let message = Message::Hello;
             send_message_to_server(&stream, message);
 
-            println!("-------------------");
-
-
+            //Welcome
             server_message_reception(&stream);
 
             let val = String::from("Kélyan");
             let message = Message::Subscribe(Subscribe{name: val});
             send_message_to_server(&stream, message);
 
-            //      l'interpreter
+            //SubscribeResult
+            server_message_reception(&stream);
+
+            //PublicLeaderBoard
+            server_message_reception(&stream);
+
+
+            //Challenge
+            //      l'interpreter avec un match
             // si str == 'Hello
             //      do_something()
             // ect...
-
         }
         Err(err) => panic!("Cannot connect : {:?}", err)
     }
