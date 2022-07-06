@@ -7,7 +7,7 @@ pub struct  Welcome {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Subscribe {
-    name: String
+    pub name: String
 }
 
 ///
