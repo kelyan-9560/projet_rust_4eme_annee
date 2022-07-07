@@ -124,41 +124,43 @@ fn main(){
             //PublicLeaderBoard
             server_message_reception(&stream);
 
-            //Challenge
-            let message = server_message_reception(&stream);
 
-/*
-            match message {
-                Message::Hello => {}
-                Message::Welcome(_) => {}
-                Message::Subscribe(_) => {}
-                Message::SubscribeResult(_) => {}
-                Message::PublicLeaderBoard(_) => {}
 
-                Message::Challenge(c) => {
-                    match c {
-                        ChallengeName::MD5HashCash(md5Input) => {
+            loop {
+                //Challenge
+                let message = server_message_reception(&stream);
 
-                            let output = hash_cash(md5Input);
-                            let md5_result = md5_output_to_challenge_result(output);
+                match message {
+                    Message::Hello => {}
+                    Message::Welcome(_) => {}
+                    Message::Subscribe(_) => {}
+                    Message::SubscribeResult(_) => {}
+                    Message::PublicLeaderBoard(_) => {}
 
-                            send_message_to_server(&stream, md5_result);
-                        }
+                    Message::Challenge(c) => {
+                        match c {
+                            Challenge::MD5HashCash(md5Input) => {
+                                let output = hash_cash(md5Input);
+                                let md5_result = md5_output_to_challenge_result(output);
 
-                        ChallengeName::RecoverSecret(recover_input) => {
-                            let output = recover_secret(md5Input);
-                            let recover_result = recover_secret_output_to_challenge_result(output);
+                                send_message_to_server(&stream, md5_result);
+                            }
 
-                            send_message_to_server(&stream, md5_result);
+                            Challenge::RecoverSecret(recover_input) => {
+
+                                let output = recover_secret(recover_input);
+                                let recover_result = recover_secret_output_to_challenge_result(output);
+
+                                send_message_to_server(&stream, recover_result);
+
+                            }
                         }
                     }
+                    Message::ChallengeResult(_) => {}
+                    Message::RoundSummary(_) => {}
+                    Message::EndOfGame(_) => break
                 }
-                Message::ChallengeResult(_) => {}
-                Message::RoundSummary(_) => {}
-                Message::EndOfGame(_) => {}
             }
-
- */
         }
         Err(err) => panic!("Cannot connect : {:?}", err)
     }
