@@ -33,11 +33,7 @@ pub struct PublicPlayer{
     total_used_time: f64
 }
 
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct PublicLeaderBoard{
-    vec:Vec<PublicPlayer>
-}
+pub type PublicLeaderBoard = Vec<PublicPlayer>;
 //////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
 pub enum ChallengeName {
