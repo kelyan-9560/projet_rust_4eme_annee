@@ -1,24 +1,8 @@
-mod structures;
-
 use std::io::Read;
 use std::net::{SocketAddr, TcpListener};
-use crate::structures::{Message, Welcome};
-
-
-trait ChallengeBis {
-    // Données en entrée du challenge
-    type Input;
-    // Données en sortie du challenge
-    type Output;
-    // Nom du challenge
-    fn name() -> String;
-    // Résout le challenge
-    fn solve(&self) -> Self::Output;
-    // Vérifie qu'une sortie est valide pour le challenge
-    fn verify(&self, answer: Self::Output) -> bool;
-}
-
-
+use common;
+use common::{Message, Welcome};
+use serde::{Serialize, Deserialize};
 
 
 fn main() {
