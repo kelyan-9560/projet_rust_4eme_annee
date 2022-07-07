@@ -53,9 +53,6 @@ fn sentence_formatter(sentence: Vec<char>) -> String{
     let mut a_string = String::from("");
     for i in 0..sentence.len() {
         a_string.push(sentence[i]);
-        if(sentence[i] != ' '){
-            a_string.push(' ');
-        }
     }
 
     return a_string;
