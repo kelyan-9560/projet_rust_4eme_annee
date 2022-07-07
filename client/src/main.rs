@@ -9,6 +9,7 @@ use std::net::{TcpStream};
 use std::string::ParseError;
 use common::ChallengeAnswer::ChallengeName;
 use crate::hash_cash::hash_cash;
+use crate::recover_secret::recover_secret;
 
 
 fn send_message_to_server(mut stream: &TcpStream, message: Message){
