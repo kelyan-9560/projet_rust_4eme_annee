@@ -18,14 +18,9 @@ pub enum SubscribeError {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub enum Result {
+pub enum SubscribeResult {
     Ok,
     Err(SubscribeError)
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct SubscribeResult {
-    result: Result
 }
 //////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
