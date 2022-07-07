@@ -1,5 +1,16 @@
 use common::RecoverSecretInput;
 
+fn first_occurrence(vector: &Vec<char>, char_to_find: char) -> usize {
+    let vec_clone = vector.clone();
+    for i in 0..vec_clone.len() {
+        if vec_clone[i] == char_to_find {
+            return i;
+        }
+    }
+    return vec_clone.len() * 2;
+}
+
+
 fn recover_secret(input: RecoverSecretInput) -> String {
     let word_count = input.word_count;
     let letters = input.letters;
@@ -7,15 +18,32 @@ fn recover_secret(input: RecoverSecretInput) -> String {
 
     let chars: Vec<char> = letters.chars().collect();
     let mut sentence = Vec::new();
-    //sentence.push(chars[0]);
+
     let mut acc = 0;
+
     for i in 0..tuple_sizes.len() {
+        let mut current_tuple = Vec::new();
         for j in acc..(acc + tuple_sizes[i]) {
-            if sentence.contains(&chars[j]) == false {
+            current_tuple.push(&chars[j]);
+
+            if !sentence.contains(&chars[j]) {
                 sentence.push(chars[j]);
+            }else {
+                if j != acc {
+                    for m in acc..j{
+                        let index1 = first_occurrence(&sentence, chars[m]);
+                        let index2 = first_occurrence(&sentence, chars[j]);
+                        if index1 > index2 {
+                            sentence.swap(index1, index2);
+                        }
+                    }
+                }
             }
         }
+        //println!("Current Tuple{:?} pos = {}", current_tuple, i);
+
         acc += tuple_sizes[i];
+        //println!("Current sentence{:?}", &sentence);
     }
 
     return sentence_formatter(sentence);
