@@ -33,14 +33,16 @@ pub struct PublicPlayer{
     total_used_time: f64
 }
 
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PublicLeaderBoard{
-    players: Vec<PublicPlayer>
+    vec:Vec<PublicPlayer>
 }
 //////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
-pub struct ChallengeName {
-    name: String
+pub enum ChallengeName {
+    MD5HashCashInput,
+    RecoverSecretInput
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -128,7 +130,7 @@ pub enum Message {
     Subscribe(Subscribe),
     SubscribeResult(SubscribeResult),
     PublicLeaderBoard(PublicLeaderBoard),
-    Challenge(Challenge),
+    Challenge(ChallengeName),
     ChallengeResult(ChallengeResult),
     RoundSummary(RoundSummary),
     EndOfGame(EndOfGame)

@@ -46,7 +46,7 @@ fn get_size_from_message(message: Vec<u8>) -> u8{
     return size_u32
 }
 
-fn server_message_reception(mut stream: &TcpStream){
+fn server_message_reception(mut stream: &TcpStream) -> Message {
     //Receptionner la taille
     let mut size : Vec<u8> = vec![0; 10];
     let _read_result = &stream.read(&mut size); // size_result == est ce que ça s'est bien passé
@@ -67,6 +67,8 @@ fn server_message_reception(mut stream: &TcpStream){
     //       le deserialiser
     let deserialized_message: Message = serde_json::from_str(&input_message_str).unwrap();
     println!("deserialized = {:?}", deserialized_message);
+
+    return deserialized_message
 }
 
 
@@ -88,14 +90,21 @@ fn main(){
             let message = Message::Subscribe(Subscribe{name: val});
             send_message_to_server(&stream, message);
 
+
+
             //SubscribeResult
             server_message_reception(&stream);
 
             //PublicLeaderBoard
             server_message_reception(&stream);
 
-
             //Challenge
+            //server_message_reception(&stream);
+
+
+
+
+
             //      l'interpreter avec un match
             // si str == 'Hello
             //      do_something()
