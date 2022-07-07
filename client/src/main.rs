@@ -6,8 +6,9 @@ mod recover_secret;
 use common::*;
 use std::io::{Read, Write};
 use std::net::{TcpStream};
-
-
+use std::string::ParseError;
+use common::ChallengeAnswer::ChallengeName;
+use crate::hash_cash::hash_cash;
 
 
 fn send_message_to_server(mut stream: &TcpStream, message: Message){
@@ -34,7 +35,6 @@ fn send_message_to_server(mut stream: &TcpStream, message: Message){
     // puis le message
     stream.write(serialized_message.as_ref()).expect("Error: Send message failed !");
 }
-
 
 fn get_size_from_message(message: Vec<u8>) -> u8{
     let mut size_u32 = 0;
@@ -71,9 +71,35 @@ fn server_message_reception(mut stream: &TcpStream) -> Message {
     return deserialized_message
 }
 
+fn md5_output_to_challenge_result(md5_output: MD5HashCashOutput) -> Message {
+
+    let challenge_output = ChallengeOutput::MD5HashCashOutput(md5_output);
+    let challenge_answer = ChallengeAnswer::ChallengeName(challenge_output);
+    let challenge_result = ChallengeResult{
+        result: challenge_answer,
+        next_target : String::from("jsp")
+    };
+    return Message::ChallengeResult(challenge_result);
+}
+
+fn recover_secret_output_to_challenge_result(recover_output: RecoverSecretOutput) -> Message {
+
+    let challenge_output = ChallengeOutput::RecoverSecretOutput(recover_output);
+    let challenge_answer = ChallengeAnswer::ChallengeName(challenge_output);
+    let challenge_result = ChallengeResult{
+        result: challenge_answer,
+        next_target : String::from("jsp")
+    };
+    return Message::ChallengeResult(challenge_result);
+}
+
+
+
 
 
 fn main(){
+
+    let name = std::env::args().nth(1).expect("no name");
 
     let stream = TcpStream::connect("localhost:7878");
 
@@ -81,15 +107,15 @@ fn main(){
         Ok(stream) => {
 
             let message = Message::Hello;
+
             send_message_to_server(&stream, message);
 
             //Welcome
             server_message_reception(&stream);
 
-            let val = String::from("Kélyan");
+            let val = String::from(name);
             let message = Message::Subscribe(Subscribe{name: val});
             send_message_to_server(&stream, message);
-
 
 
             //SubscribeResult
@@ -99,16 +125,40 @@ fn main(){
             server_message_reception(&stream);
 
             //Challenge
-            //server_message_reception(&stream);
+            let message = server_message_reception(&stream);
 
+/*
+            match message {
+                Message::Hello => {}
+                Message::Welcome(_) => {}
+                Message::Subscribe(_) => {}
+                Message::SubscribeResult(_) => {}
+                Message::PublicLeaderBoard(_) => {}
 
+                Message::Challenge(c) => {
+                    match c {
+                        ChallengeName::MD5HashCash(md5Input) => {
 
+                            let output = hash_cash(md5Input);
+                            let md5_result = md5_output_to_challenge_result(output);
 
+                            send_message_to_server(&stream, md5_result);
+                        }
 
-            //      l'interpreter avec un match
-            // si str == 'Hello
-            //      do_something()
-            // ect...
+                        ChallengeName::RecoverSecret(recover_input) => {
+                            let output = recover_secret(md5Input);
+                            let recover_result = recover_secret_output_to_challenge_result(output);
+
+                            send_message_to_server(&stream, md5_result);
+                        }
+                    }
+                }
+                Message::ChallengeResult(_) => {}
+                Message::RoundSummary(_) => {}
+                Message::EndOfGame(_) => {}
+            }
+
+ */
         }
         Err(err) => panic!("Cannot connect : {:?}", err)
     }

@@ -30,8 +30,6 @@ fn increase(mut vec : Vec<u8>) -> Vec<u8>{
 
 
 
-
-
 pub fn hash_cash(input: MD5HashCashInput) -> MD5HashCashOutput{
     //let mut vec : Vec<u8> = vec![0, 0, 0, 0, 0, 0, 0, 0];
     //let mut vec2 : Vec<u8>;

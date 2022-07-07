@@ -37,8 +37,8 @@ pub type PublicLeaderBoard = Vec<PublicPlayer>;
 //////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
 pub enum ChallengeName {
-    MD5HashCashInput,
-    RecoverSecretInput
+    MD5HashCash(MD5HashCashInput),
+    RecoverSecret(RecoverSecretInput)
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -53,13 +53,18 @@ pub struct Challenge {
 
 //////////////////////////////////////////
 #[derive(Serialize, Deserialize, Debug)]
-pub struct  ChallengeAnswer {
-    answer: String
+pub enum ChallengeOutput {
+    MD5HashCashOutput(MD5HashCashOutput),
+    RecoverSecretOutput(RecoverSecretOutput)
+}
+#[derive(Serialize, Deserialize, Debug)]
+pub enum ChallengeAnswer {
+    ChallengeName(ChallengeOutput)
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ChallengeResult {
-    result: ChallengeAnswer,
-    next_target: String
+    pub result: ChallengeAnswer,
+    pub next_target: String
 }
 //////////////////////////////////////////
 
@@ -73,8 +78,8 @@ pub enum  ChallengeValue {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ReportedChallengeResult {
-    name: String,
-    value : ChallengeValue
+    pub name: String,
+    pub value : ChallengeValue
 }
 
 #[derive(Serialize, Deserialize, Debug)]
