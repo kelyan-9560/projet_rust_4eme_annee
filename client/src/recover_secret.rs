@@ -1,4 +1,4 @@
-use common::RecoverSecretInput;
+use common::{RecoverSecretInput, RecoverSecretOutput};
 
 fn first_occurrence(vector: &Vec<char>, char_to_find: char) -> usize {
     let vec_clone = vector.clone();
@@ -11,7 +11,7 @@ fn first_occurrence(vector: &Vec<char>, char_to_find: char) -> usize {
 }
 
 
-pub fn recover_secret(input: RecoverSecretInput) -> String {
+pub fn recover_secret(input: RecoverSecretInput) -> RecoverSecretOutput {
     let word_count = input.word_count;
     let letters = input.letters;
     let tuple_sizes = input.tuple_sizes;
@@ -46,7 +46,9 @@ pub fn recover_secret(input: RecoverSecretInput) -> String {
         //println!("Current sentence{:?}", &sentence);
     }
 
-    return sentence_formatter(sentence);
+    return RecoverSecretOutput {
+        secret_sentence: sentence_formatter(sentence)
+    };
 }
 
 fn sentence_formatter(sentence: Vec<char>) -> String{
