@@ -40,14 +40,17 @@
 
 
 
-### Réalisation de l'algo : Kélyan + Lucas pour la partie incrémentation de l'hexa
+### Réalisation de l'algo haschcash: Kélyan + Lucas pour la partie incrémentation de l'hexa
   - Incrémentation de l'hexadécimal : 
     - `fn increase(mut vec : Vec<u8>) -> Vec<u8>{}`
     - Refacto :  Conversion en u64
 
 
-##### Recover Secret : Halimatou 
-
+### Challenge Recover Secret : Halimatou 
+   - complexité [1,16] prise en compte pour l'implémentation de l'algorithme
+   - Convertion de lettres en vecteur de charactères pour faciliter la reconstitution des tuple
+   - Parsing pour reconstituer les tuples 
+   - Constitution du message secret en respectant les tuples au fur et à mésure
 
 
 # ° Communication avec le serveur : Kélyan
