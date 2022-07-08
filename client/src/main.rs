@@ -6,8 +6,6 @@ mod recover_secret;
 use common::*;
 use std::io::{Read, Write};
 use std::net::{TcpStream};
-use std::string::ParseError;
-use common::ChallengeAnswer::ChallengeName;
 use crate::hash_cash::hash_cash;
 use crate::recover_secret::recover_secret;
 
@@ -32,9 +30,9 @@ fn send_message_to_server(mut stream: &TcpStream, message: Message){
     print!("{:?}", bigendian_size);
 
     //Envoyer la taille
-    stream.write(&bigendian_size).expect("Error: send size failed !");
+    stream.write(&bigendian_size).expect("Error: Failed to send size !");
     // puis le message
-    stream.write(serialized_message.as_ref()).expect("Error: Send message failed !");
+    stream.write(serialized_message.as_ref()).expect("Error: Failed to send message !");
 }
 
 fn get_size_from_message(message: Vec<u8>) -> u8{
@@ -97,7 +95,6 @@ fn recover_secret_output_to_challenge_result(recover_output: RecoverSecretOutput
 
 
 
-
 fn main(){
 
     let name = std::env::args().nth(1).expect("no name");
@@ -117,7 +114,6 @@ fn main(){
             let val = String::from(name);
             let message = Message::Subscribe(Subscribe{name: val});
             send_message_to_server(&stream, message);
-
 
             //SubscribeResult
             server_message_reception(&stream);

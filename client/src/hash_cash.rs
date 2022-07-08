@@ -1,5 +1,3 @@
-use std::ptr::read;
-use md5::Digest;
 use common::{MD5HashCashInput, MD5HashCashOutput};
 extern crate hex;
 

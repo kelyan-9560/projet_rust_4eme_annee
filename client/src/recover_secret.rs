@@ -12,7 +12,7 @@ fn first_occurrence(vector: &Vec<char>, char_to_find: char) -> usize {
 
 
 pub fn recover_secret(input: RecoverSecretInput) -> RecoverSecretOutput {
-    let word_count = input.word_count;
+    let _word_count = input.word_count;
     let letters = input.letters;
     let tuple_sizes = input.tuple_sizes;
 
