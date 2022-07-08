@@ -47,7 +47,7 @@ fn get_size_from_message(message: Vec<u8>) -> u8{
 
 fn server_message_reception(mut stream: &TcpStream) -> Message {
     //Receptionner la taille
-    let mut size : Vec<u8> = vec![0; 10];
+    let mut size : Vec<u8> = vec![0; 4];
     let _read_result = &stream.read(&mut size); // size_result == est ce que ça s'est bien passé
                                                                     // le resultat du read est dans size
     println!("size : {:?}", size);
