@@ -140,8 +140,8 @@ fn main(){
 
                     Message::Challenge(c) => {
                         match c {
-                            Challenge::MD5HashCash(md5Input) => {
-                                let output = hash_cash(md5Input);
+                            Challenge::MD5HashCash(md5_input) => {
+                                let output = hash_cash(md5_input);
                                 let md5_result = md5_output_to_challenge_result(output);
 
                                 send_message_to_server(&stream, md5_result);
