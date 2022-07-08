@@ -74,9 +74,9 @@ mod tests {
             tuple_sizes: vec![3, 4, 5, 7, 7, 3]
         };
         let res = recover_secret(value);
-        println!("{}",res);
+        println!("{}",res.secret_sentence);
 
-        assert_eq!(res,"C'est chou");
+        assert_eq!(res.secret_sentence,"C'est chou");
     }
 
     #[test]
@@ -87,8 +87,8 @@ mod tests {
             tuple_sizes : vec![6, 8, 4, 6, 4, 7, 8, 9, 6, 9, 8, 7, 5, 7, 6, 6, 9, 5, 4, 5, 4]
         };
         let res = recover_secret(value);
-        println!("{}",res);
+        println!("{}",res.secret_sentence);
 
-        assert_eq!(res,"xWRvraj4fonTUmzyO25wA3lBeiM9H");
+        assert_eq!(res.secret_sentence,"xWRvraj4fonTUmzyO25wA3lBeiM9H");
     }
 }
